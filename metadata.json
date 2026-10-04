@@ -1,0 +1,6 @@
+{
+  "name": "MEMORA — AI Personal Second Brain",
+  "description": "A personal life-memory assistant to remember events, record daily memories, track goals and projects, capture ideas, and ask AI questions about your stored information.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

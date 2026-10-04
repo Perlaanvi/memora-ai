@@ -1,0 +1,245 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile document stored in Second Brain",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "maxLength": 128 },
+        "displayName": { "type": "string", "maxLength": 200 },
+        "email": { "type": "string", "maxLength": 200 },
+        "photoURL": { "type": "string", "maxLength": 1000 },
+        "created_at": { "type": "string", "maxLength": 64 },
+        "updated_at": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["uid", "email"]
+    },
+    "Document": {
+      "title": "Document",
+      "description": "Technical document, note, or research paper in the Second Brain knowledge repository",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "title": { "type": "string", "maxLength": 200 },
+        "filename": { "type": "string", "maxLength": 200 },
+        "file_type": { "type": "string", "maxLength": 32 },
+        "content": { "type": "string", "maxLength": 100000 },
+        "created_at": { "type": "string", "maxLength": 64 },
+        "updated_at": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["userId", "title", "content"]
+    },
+    "Memory": {
+      "title": "Memory",
+      "description": "Key personal fact, intuition, or core memory stored for instant recall",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "title": { "type": "string", "maxLength": 200 },
+        "content": { "type": "string", "maxLength": 10000 },
+        "category": { "type": "string", "maxLength": 64 },
+        "importance": { "type": "number" },
+        "created_at": { "type": "string", "maxLength": 64 },
+        "updated_at": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["userId", "title", "content", "category"]
+    },
+    "Goal": {
+      "title": "Goal",
+      "description": "Personal or professional goal with status, target milestone, and priority",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "title": { "type": "string", "maxLength": 200 },
+        "description": { "type": "string", "maxLength": 10000 },
+        "status": { "type": "string", "maxLength": 32 },
+        "priority": { "type": "number" },
+        "target_date": { "type": "string", "maxLength": 64 },
+        "created_at": { "type": "string", "maxLength": 64 },
+        "updated_at": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["userId", "title", "status"]
+    },
+    "Project": {
+      "title": "Project",
+      "description": "Active, planned, or completed project in the knowledge system",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "maxLength": 200 },
+        "description": { "type": "string", "maxLength": 10000 },
+        "status": { "type": "string", "maxLength": 32 },
+        "priority": { "type": "number" },
+        "start_date": { "type": "string", "maxLength": 64 },
+        "target_date": { "type": "string", "maxLength": 64 },
+        "created_at": { "type": "string", "maxLength": 64 },
+        "updated_at": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["userId", "name", "status"]
+    },
+    "Idea": {
+      "title": "Idea",
+      "description": "Brainstormed concept or exploratory idea stored in the Second Brain",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "title": { "type": "string", "maxLength": 200 },
+        "description": { "type": "string", "maxLength": 10000 },
+        "category": { "type": "string", "maxLength": 64 },
+        "status": { "type": "string", "maxLength": 32 },
+        "priority": { "type": "number" },
+        "created_at": { "type": "string", "maxLength": 64 },
+        "updated_at": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["userId", "title", "category"]
+    },
+    "Learning": {
+      "title": "Learning",
+      "description": "Synthesized knowledge nugget, theorem, or takeaway from notes and research",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "title": { "type": "string", "maxLength": 200 },
+        "content": { "type": "string", "maxLength": 10000 },
+        "category": { "type": "string", "maxLength": 64 },
+        "source": { "type": "string", "maxLength": 200 },
+        "importance": { "type": "number" },
+        "created_at": { "type": "string", "maxLength": 64 },
+        "updated_at": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["userId", "title", "content"]
+    },
+    "ChatThread": {
+      "title": "ChatThread",
+      "description": "Persistent conversation thread in Second Brain AI chat",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "title": { "type": "string", "maxLength": 256 },
+        "snippet": { "type": "string", "maxLength": 500 },
+        "created_at": { "type": "string", "maxLength": 64 },
+        "updated_at": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["userId", "title"]
+    },
+    "ChatMessage": {
+      "title": "ChatMessage",
+      "description": "Individual conversation message in Second Brain AI chat",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "threadId": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "role": { "type": "string", "maxLength": 32 },
+        "content": { "type": "string", "maxLength": 50000 },
+        "timestamp": { "type": "string", "maxLength": 64 },
+        "created_at": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["userId", "role", "content"]
+    },
+    "MemoryVector": {
+      "title": "MemoryVector",
+      "description": "Semantic embedding vector for a confirmed memory in Second Brain",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "memoryId": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "model": { "type": "string", "maxLength": 128 },
+        "dimensions": { "type": "number" },
+        "version": { "type": "string", "maxLength": 64 },
+        "created_at": { "type": "string", "maxLength": 64 },
+        "updated_at": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["id", "memoryId", "userId", "model", "dimensions"]
+    },
+    "KnowledgeEntity": {
+      "title": "KnowledgeEntity",
+      "description": "Explicit entity in the user's personal knowledge graph",
+      "type": "object",
+      "properties": {
+        "entityId": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "maxLength": 200 },
+        "type": { "type": "string", "maxLength": 64 },
+        "aliases": { "type": "array", "items": { "type": "string" } },
+        "created_at": { "type": "string", "maxLength": 64 },
+        "updated_at": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["entityId", "userId", "name", "type"]
+    },
+    "KnowledgeRelationship": {
+      "title": "KnowledgeRelationship",
+      "description": "Explicit relationship between entities with memory provenance",
+      "type": "object",
+      "properties": {
+        "relationshipId": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "sourceEntityId": { "type": "string", "maxLength": 128 },
+        "targetEntityId": { "type": "string", "maxLength": 128 },
+        "relation": { "type": "string", "maxLength": 128 },
+        "sourceMemoryIds": { "type": "array", "items": { "type": "string" } },
+        "created_at": { "type": "string", "maxLength": 64 },
+        "updated_at": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["relationshipId", "userId", "sourceEntityId", "targetEntityId", "relation", "sourceMemoryIds"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "Collection of user profiles in Second Brain"
+    },
+    "/users/{userId}/knowledge_entities/{entityId}": {
+      "schema": "KnowledgeEntity",
+      "description": "User-scoped knowledge entities"
+    },
+    "/users/{userId}/knowledge_relationships/{relationshipId}": {
+      "schema": "KnowledgeRelationship",
+      "description": "User-scoped knowledge relationships with provenance"
+    },
+    "/documents/{documentId}": {
+      "schema": "Document",
+      "description": "Collection of documents and notes stored in Second Brain"
+    },
+    "/memories/{memoryId}": {
+      "schema": "Memory",
+      "description": "Collection of memories stored in Second Brain"
+    },
+    "/goals/{goalId}": {
+      "schema": "Goal",
+      "description": "Collection of personal and career goals"
+    },
+    "/projects/{projectId}": {
+      "schema": "Project",
+      "description": "Collection of projects tracked in Second Brain"
+    },
+    "/ideas/{ideaId}": {
+      "schema": "Idea",
+      "description": "Collection of ideas captured in Second Brain"
+    },
+    "/learnings/{learningId}": {
+      "schema": "Learning",
+      "description": "Collection of learned technical concepts"
+    },
+    "/chat_threads/{threadId}": {
+      "schema": "ChatThread",
+      "description": "Persistent conversation threads for user AI chat"
+    },
+    "/chat_messages/{messageId}": {
+      "schema": "ChatMessage",
+      "description": "Persistent conversation messages for user AI chat"
+    },
+    "/memory_vectors/{memoryId}": {
+      "schema": "MemoryVector",
+      "description": "Collection of semantic embedding vectors for confirmed memories"
+    }
+  }
+}
