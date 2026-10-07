@@ -2,28 +2,37 @@ import express, { Request, Response, NextFunction } from 'express';
 import path from 'path';
 import { createServer as createViteServer } from 'vite';
 import { GoogleGenAI } from '@google/genai';
+
 import {
   initializeApp as initAdminApp,
   getApps as getAdminApps,
   cert,
   ServiceAccount,
 } from 'firebase-admin/app';
+
 import { getAuth as getAdminAuth } from 'firebase-admin/auth';
 import { getFirestore as getAdminFirestore } from 'firebase-admin/firestore';
-import firebaseServiceAccount from './firebase-service-account.json';
+
+import fs from 'fs';
+
 import firebaseConfig from './firebase-applet-config.json';
+
 import 'dotenv/config';
+
 import {
   generateMemoryEmbedding,
   generateQueryEmbedding,
   cosineSimilarity,
   getEmbeddingProvider
 } from './src/server/embeddingService';
+
 import {
   isPersonalQuery,
   retrieveSemanticMemories
 } from './src/server/semanticRetrievalService';
+
 import { executeRagPipeline } from './src/server/ragPipelineService';
+
 import {
   syncMemoryToGraph,
   removeMemoryFromGraph,
@@ -34,7 +43,9 @@ import {
   getUserRelationshipById,
   extractEntitiesAndRelationships
 } from './src/server/knowledgeGraphService';
+
 import { retrieveGraphEvidence } from './src/server/knowledgeGraphRetrievalService';
+
 import {
   extractAndSaveTemporalMetadata,
   backfillUserTimeline,
@@ -43,28 +54,53 @@ import {
 } from './src/server/temporalService';
 
 const app = express();
-const PORT = 3000;
+
+const PORT = Number(process.env.PORT) || 3000;
 
 app.use(express.json({ limit: '10mb' }));
 
 // Lazy initialization of Gemini client
 let genAIClient: GoogleGenAI | null = null;
+
 function getGenAI(): GoogleGenAI | null {
   if (!genAIClient && process.env.GEMINI_API_KEY) {
-    genAIClient = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+    genAIClient = new GoogleGenAI({
+      apiKey: process.env.GEMINI_API_KEY
+    });
   }
+
   return genAIClient;
 }
 
-// Initialize Firebase Admin for server-side token verification and database operations
+// Firebase Admin service account
+// Local development:
+//   firebase-service-account.json
+//
+// Production:
+//   FIREBASE_SERVICE_ACCOUNT_JSON environment variable
+
+const firebaseServiceAccount = process.env.FIREBASE_SERVICE_ACCOUNT_JSON
+  ? JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_JSON)
+  : JSON.parse(
+      fs.readFileSync('./firebase-service-account.json', 'utf8')
+    );
+
+// Initialize Firebase Admin for server-side token verification
+// and database operations
+
 const adminApp = getAdminApps().length === 0
   ? initAdminApp({
       credential: cert(firebaseServiceAccount as ServiceAccount),
       projectId: firebaseConfig.projectId,
     })
   : getAdminApps()[0];
+
 const adminAuth = getAdminAuth(adminApp);
-const adminDb = getAdminFirestore(adminApp, firebaseConfig.firestoreDatabaseId);
+
+const adminDb = getAdminFirestore(
+  adminApp,
+  firebaseConfig.firestoreDatabaseId
+);
 
 export interface AuthenticatedRequest extends Request {
   user?: {
